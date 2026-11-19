@@ -1,0 +1,64 @@
+services:
+  telegram-bot-api:
+    image: aiogram/telegram-bot-api:latest
+    container_name: craft3d-public-telegram-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      TELEGRAM_API_ID: ${TELEGRAM_API_ID}
+      TELEGRAM_API_HASH: ${TELEGRAM_API_HASH}
+      TELEGRAM_LOCAL: "1"
+    volumes:
+      - telegram-api-data:/var/lib/telegram-bot-api
+    networks:
+      - craft3d-net
+    init: true
+    security_opt:
+      - no-new-privileges:true
+
+  craft3d-ai:
+    build:
+      context: ./app
+    container_name: craft3d-public-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./data:/data
+      - telegram-api-data:/var/lib/telegram-bot-api:ro
+    networks:
+      - craft3d-net
+    init: true
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      telegram-bot-api:
+        condition: service_started
+      craft3d-renderer:
+        condition: service_started
+
+  craft3d-renderer:
+    build:
+      context: .
+      dockerfile: renderer/Dockerfile
+    container_name: craft3d-public-renderer
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+      - ./renderer:/renderer:ro
+    environment:
+      SOLIDCRAFT_CLI: /usr/bin/solidcraft-cli
+    networks:
+      - craft3d-net
+    init: true
+    security_opt:
+      - no-new-privileges:true
+    command: ["python3", "/renderer/server.py"]
+
+networks:
+  craft3d-net:
+    driver: bridge
+
+volumes:
+  telegram-api-data:

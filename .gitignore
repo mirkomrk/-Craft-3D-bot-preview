@@ -1,0 +1,40 @@
+# Segreti e configurazioni locali
+.env
+.env.*
+!.env.example
+
+# Backup e file temporanei
+*.bak
+*.bak-*
+*.tmp
+*.log
+*~
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Dati e file degli utenti
+data/inbox/*
+data/previews/*
+data/projects/*
+!data/inbox/.gitkeep
+!data/previews/.gitkeep
+!data/projects/.gitkeep
+
+# File di test locali
+renderer/render_test_*.py
+
+# Binari e pacchetti SolidCraft locali
+tools/solidcraft/solidcraft.deb
+tools/solidcraft/extracted/
+tools/solidcraft/[[]*
+tools/solidcraft/--out
+tools/solidcraft/--in
+
+# Pacchetto SolidCraft incluso nella distribuzione pubblica
+third-party/solidcraft/solidcraft.deb
