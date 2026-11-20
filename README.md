@@ -1,9 +1,13 @@
-# Craft3D AI
+
 
 <p align="center">
   <img src="assets/fe1953f6-a90b-4f1d-834e-f0729047fe46.png" alt="Craft3D AI" width="100%">
 </p>
 
+
+
+
+# Craft3D AI
 Telegram bot for receiving, archiving and generating 3D model previews using SolidCraft CLI.
 
 ## Features
